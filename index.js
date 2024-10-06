@@ -1,25 +1,32 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const connectDB = require("./db/connection");
-const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
-
+// CORS configuration
 const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
+  origin: "http://localhost:3000",  // If React Native is on a different IP, replace localhost with that IP
+  credentials: true, 
   methods: ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"],
 };
 
-app.use("/api", userRoutes);
+app.use(cors(corsOptions));  // Apply CORS with the defined options
+app.use(bodyParser.json());  // Parse incoming JSON payloads
 
+// API routes
+app.use("/api", userRoutes); 
+app.get("/", (req, res) =>{
+  res.send("Welcome")
+})
+
+// Set up the server port
 const port = process.env.PORT || 5000;
 
+// Connect to MongoDB and start the server
 connectDB()
   .then(() => {
     app.listen(port, () => {
