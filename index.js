@@ -19,8 +19,13 @@ app.use(bodyParser.json());  // Parse incoming JSON payloads
 
 // API routes
 app.use("/api", userRoutes); 
+
 app.get("/", (req, res) =>{
   res.send("Welcome")
+})
+
+app.get("/home", (req, res) =>{
+  res.send("Welcome Home")
 })
 
 // Set up the server port
