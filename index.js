@@ -7,17 +7,15 @@ const connectDB = require("./db/connection");
 
 const app = express();
 
-// CORS configuration
 const corsOptions = {
-  origin: ["*"], // Allow requests from any origin
+  origin: ["*"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"],
 };
 
-app.use(cors(corsOptions)); // Apply CORS with the defined options
-app.use(bodyParser.json()); // Parse incoming JSON payloads
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
 
-// API routes
 app.use("/api", userRoutes);
 
 app.get("/", (req, res) => {
@@ -28,10 +26,8 @@ app.get("/home", (req, res) => {
   res.send("Welcome Home");
 });
 
-// Set up the server port
 const port = process.env.PORT || 5000;
 
-// Connect to MongoDB and start the server
 connectDB()
   .then(() => {
     app.listen(port, () => {
